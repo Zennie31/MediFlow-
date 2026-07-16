@@ -6,11 +6,10 @@
     <title>MediFlow - Doctor Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
-        /* Reset & Base */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1a365d 100%);
+            background: linear-gradient(135deg, #e3f6f0 0%, #eafaf5 50%, #e6f5f4 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -18,124 +17,83 @@
             padding: 20px;
         }
         .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
+            background: #f7fbfa;
             border-radius: 24px;
             padding: 48px 40px;
             width: 100%;
             max-width: 440px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 50px rgba(15, 60, 50, 0.12);
             animation: slideUp 0.6s ease-out;
         }
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .login-header { text-align: center; margin-bottom: 36px; }
-        .login-header .logo {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 72px;
-            height: 72px;
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            border-radius: 18px;
-            font-size: 36px;
-            margin-bottom: 16px;
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+        .login-header { text-align: center; margin-bottom: 32px; }
+        .login-header .logo-img {
+            height: 56px;
+            width: auto;
+            margin-bottom: 12px;
         }
         .login-header h1 {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
-            color: #0f172a;
-            letter-spacing: -0.5px;
+            color: #0f2f28;
+            letter-spacing: -0.3px;
+            margin-bottom: 8px;
         }
-        .login-header h1 span { color: #2563eb; }
-        .login-header p { color: #64748b; font-size: 14px; margin-top: 4px; }
+        .login-header p { color: #64748b; font-size: 14px; }
         .form-group { margin-bottom: 20px; }
         .form-group label {
             display: block;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
-            color: #334155;
-            margin-bottom: 6px;
-        }
-        .form-group .input-wrapper { position: relative; }
-        .form-group .input-wrapper .icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            font-size: 18px;
+            color: #0f2f28;
+            margin-bottom: 8px;
         }
         .form-group input {
             width: 100%;
-            padding: 12px 16px 12px 46px;
-            border: 2px solid #e2e8f0;
+            padding: 14px 18px;
+            border: none;
             border-radius: 12px;
             font-size: 15px;
             font-family: 'Inter', sans-serif;
             outline: none;
             transition: all 0.2s;
-            background: #f8fafc;
-            color: #0f172a;
+            background: #eef1fb;
+            color: #0f2f28;
         }
         .form-group input:focus {
-            border-color: #2563eb;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
         .form-group input::placeholder { color: #94a3b8; }
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-        .form-options .remember {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: #64748b;
-            cursor: pointer;
-        }
-        .form-options .remember input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            accent-color: #2563eb;
-            cursor: pointer;
-        }
-        .form-options .forgot {
-            font-size: 13px;
-            color: #2563eb;
-            text-decoration: none;
+        .error-message {
+            text-align: center;
+            color: #dc2626;
+            font-size: 14px;
             font-weight: 500;
+            margin-bottom: 20px;
+            display: none;
         }
-        .form-options .forgot:hover { text-decoration: underline; }
+        .error-message.show { display: block; }
         .login-btn {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            padding: 15px;
+            background: #16a97a;
             color: white;
             border: none;
             border-radius: 12px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             font-family: 'Inter', sans-serif;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
         }
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.45);
-        }
+        .login-btn:hover { background: #129266; }
         .login-btn:disabled {
             opacity: 0.7;
             cursor: not-allowed;
-            transform: none;
         }
         .login-btn .spinner {
             display: none;
@@ -150,38 +108,17 @@
         .login-btn.loading .spinner { display: block; }
         .login-btn.loading .btn-text { display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .error-message {
-            background: #fef2f2;
-            border: 1px solid #fca5a5;
-            border-radius: 10px;
-            padding: 12px 16px;
-            color: #991b1b;
-            font-size: 14px;
-            margin-bottom: 16px;
-            display: none;
-            align-items: center;
-            gap: 10px;
-        }
-        .error-message.show { display: flex; }
         .login-footer {
             text-align: center;
-            margin-top: 28px;
-            padding-top: 20px;
-            border-top: 1px solid #e2e8f0;
+            margin-top: 24px;
         }
-        .login-footer p { font-size: 12px; color: #94a3b8; }
-        .login-footer .badge {
-            display: inline-block;
-            font-size: 10px;
+        .login-footer a {
+            font-size: 14px;
             font-weight: 600;
-            padding: 4px 12px;
-            background: #dbeafe;
-            color: #1d4ed8;
-            border-radius: 20px;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            color: #2563eb;
+            text-decoration: none;
         }
+        .login-footer a:hover { text-decoration: underline; }
         @media (max-width: 480px) {
             .login-container { padding: 32px 24px; border-radius: 16px; }
         }
@@ -189,74 +126,50 @@
 </head>
 <body>
     <div class="login-container">
-        <!-- Header -->
         <div class="login-header">
-            <div class="logo">🏥</div>
-            <h1>Medi<span>Flow</span></h1>
-            <p>Doctor Triage Portal</p>
+            <img src="mediflow_logo.png" alt="MediFlow" class="logo-img" />
+            <h1>Welcome to MediFlow</h1>
+            <p>Please enter your credentials to continue</p>
         </div>
 
-        <!-- Error Message -->
-        <div class="error-message" id="errorMessage">
-            <span>⚠️</span>
-            <span id="errorText">Invalid credentials. Please try again.</span>
-        </div>
-
-        <!-- Login Form -->
         <form id="loginForm" onsubmit="handleLogin(event)">
             <div class="form-group">
                 <label>Username</label>
-                <div class="input-wrapper">
-                    <span class="icon">👤</span>
-                    <input
-                        type="text"
-                        id="username"
-                        placeholder="Enter your username"
-                        required
-                        autofocus
-                    />
-                </div>
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Enter your username"
+                    required
+                    autofocus
+                />
             </div>
 
             <div class="form-group">
                 <label>Password</label>
-                <div class="input-wrapper">
-                    <span class="icon">🔒</span>
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Enter your password"
-                        required
-                    />
-                </div>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+                />
             </div>
 
-            <div class="form-options">
-                <label class="remember">
-                    <input type="checkbox" checked />
-                    Remember me
-                </label>
-                <a href="#" class="forgot">Forgot password?</a>
+            <div class="error-message" id="errorMessage">
+                <span id="errorText">Invalid username or password. Please try again.</span>
             </div>
 
             <button type="submit" class="login-btn" id="loginBtn">
-                <span class="btn-text">Sign In</span>
+                <span class="btn-text">Login</span>
                 <span class="spinner"></span>
             </button>
         </form>
 
-        <!-- Footer -->
         <div class="login-footer">
-            <div class="badge">🔐 Secure Portal</div>
-            <p>Authorized medical professionals only &bull; Protected by PDPA</p>
+            <a href="#">Visit MediFlow Homepage &rarr;</a>
         </div>
     </div>
 
     <script>
-        // ============================================
-        // DOCTOR CREDENTIALS (Prototype)
-        // ============================================
-
         const VALID_CREDENTIALS = {
             'dr.weiming': { password: 'password123', name: 'Dr Wei Ming Lim', role: 'Physician', id: 'D001' },
             'dr.junhao': { password: 'password123', name: 'Dr Jun Hao Hassan', role: 'Physician', id: 'D002' },
@@ -285,10 +198,6 @@
             'admin': { password: 'admin123', name: 'System Admin', role: 'Administrator', id: 'ADMIN' }
         };
 
-        // ============================================
-        // LOGIN HANDLER
-        // ============================================
-
         function handleLogin(event) {
             event.preventDefault();
 
@@ -308,20 +217,17 @@
             btn.disabled = true;
             errorMsg.classList.remove('show');
 
-            // Simulate authentication
             setTimeout(() => {
                 const user = VALID_CREDENTIALS[username];
 
                 if (user && user.password === password) {
-                    // Generate JWT token (simple)
                     const token = btoa(JSON.stringify({
                         doctor_id: user.id,
                         doctor_name: user.name,
                         role: user.role,
-                        exp: Date.now() + 3600000 // 1 hour
+                        exp: Date.now() + 3600000
                     }));
 
-                    // Store in localStorage
                     localStorage.setItem('jwt_token', token);
                     localStorage.setItem('doctor_info', JSON.stringify({
                         id: user.id,
@@ -329,10 +235,9 @@
                         role: user.role
                     }));
 
-                    // Redirect to dashboard
-                    window.location.href = 'dashboard.html';
+                    window.location.href = 'dashboard2.html';
                 } else {
-                    errorText.textContent = 'Invalid credentials. Please try again.';
+                    errorText.textContent = 'Invalid username or password. Please try again.';
                     errorMsg.classList.add('show');
                     btn.classList.remove('loading');
                     btn.disabled = false;
@@ -340,20 +245,18 @@
             }, 800);
         }
 
-        // Enter key support
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 document.getElementById('loginForm').dispatchEvent(new Event('submit'));
             }
         });
 
-        // Check if already logged in
         const token = localStorage.getItem('jwt_token');
         if (token) {
             try {
                 const decoded = JSON.parse(atob(token));
                 if (decoded.exp > Date.now()) {
-                    window.location.href = 'dashboard.html';
+                    window.location.href = 'dashboard2.html';
                 } else {
                     localStorage.removeItem('jwt_token');
                     localStorage.removeItem('doctor_info');
@@ -363,7 +266,6 @@
                 localStorage.removeItem('doctor_info');
             }
         }
-        
     </script>
 </body>
 </html>
